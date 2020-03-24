@@ -1,26 +1,65 @@
 import React from 'react';
-import logo from './logo.svg';
+import Paper from '@material-ui/core/Paper';
+import AppBar from '@material-ui/core/AppBar';
+import Typography from '@material-ui/core/Typography';
+import Toolbar from '@material-ui/core/Toolbar';
+import { Grid, Row, Col } from 'react-flexbox-grid';
+import LocationList from './components/LocationList';
+import ForescastExtended from './components/ForescastExtended';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const cities = [
+  'Buenos Aires,ar',
+  'Washington,us',
+  'Bogota,col',
+  'Ciudad de Mexico,mx',
+  'Madrid,es',
+  'Lima,pe',
+];
+
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = { city: 'Nueva Ciudad' };
+  }
+
+  handleSelectedLocation = city => {
+    this.setState({ city });
+  }
+  
+  render() {
+    const { city } = this.state;
+    return (
+
+      <Grid>
+        <Row>
+          <AppBar position='sticky'>
+            <Toolbar>
+              <Typography variant='h5' color='inherit'>
+                Weather App
+              </Typography>
+            </Toolbar>
+          </AppBar>
+        </Row>
+        <Row>
+          <Col xs={12} md={6}>
+            <LocationList 
+              cities={cities} 
+              onSeletedLocation={this.handleSelectedLocation}/>
+         </Col>
+         <Col xs={12} md={6}>
+           <Paper elevation={4}>
+              <div className="details">
+                <ForescastExtended city={city}></ForescastExtended>
+              </div>
+           </Paper>
+           
+         </Col>
+        </Row>
+      </Grid>
+    );
+  }
 }
+
 
 export default App;
